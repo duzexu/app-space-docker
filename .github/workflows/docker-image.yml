@@ -49,4 +49,4 @@ jobs:
           file: nginx/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: latest
