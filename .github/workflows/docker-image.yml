@@ -13,6 +13,20 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
+    - name: Docker Meta
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+          images: |
+            ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha,prefix=
+    
     - name: Inject slug/short variables
       uses: rlespinasse/github-slug-action@v4
 
@@ -35,5 +49,4 @@ jobs:
           file: nginx/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: |
-            ghcr.io/duzexu/app-space-docker:latest
+          tags: ${{ steps.meta.outputs.tags }}
