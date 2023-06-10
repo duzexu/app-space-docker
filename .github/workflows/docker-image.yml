@@ -9,7 +9,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      packages: write
+      
     steps:
     - uses: actions/checkout@v3
     
@@ -49,4 +52,5 @@ jobs:
           file: nginx/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
